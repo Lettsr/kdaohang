@@ -1,0 +1,2964 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI导航 - 全网最全AI工具导航站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #a5b4fc;
+            --bg: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --sidebar-bg: rgba(30, 41, 59, 0.95);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
+            --accent-teal: #14b8a6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* 顶部导航 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-pink));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .navbar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .navbar-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .navbar-links a:hover {
+            color: var(--text);
+            background: var(--bg-card);
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .lang-toggle {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            background: var(--bg-card);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+
+        .lang-toggle:hover {
+            background: var(--bg-card-hover);
+        }
+
+        /* Hero区域 */
+        .hero {
+            padding: 80px 2rem 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-left: 280px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 50%, rgba(236, 72, 153, 0.06) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(1deg); }
+            66% { transform: translate(-20px, 20px) rotate(-1deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, var(--primary-light), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* 搜索框 */
+        .search-container {
+            max-width: 680px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 6px;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+
+        .search-icon {
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .search-box input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text);
+            font-size: 1.05rem;
+            padding: 12px 0;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+            border: none;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .search-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 1.2rem;
+        }
+
+        .search-tag {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-tag:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* 统计数据 */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* 主要内容容器 */
+        .content-container {
+            display: flex;
+            min-height: calc(100vh - 64px);
+        }
+
+        /* 左侧边栏 */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: 64px;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 99;
+        }
+
+        /* 分类导航 */
+        .category-nav {
+            padding: 1rem;
+        }
+
+        .category-nav::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .category-nav::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        .category-nav::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .category-tab {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: transparent;
+            border: 2px solid transparent;
+            color: var(--text-secondary);
+            outline: none;
+        }
+
+        .category-tab:hover {
+            background: var(--bg-card);
+            color: var(--text);
+        }
+
+        .category-tab.active {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary-light);
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .category-tab .tab-icon {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .category-tab .tab-text {
+            flex: 1;
+        }
+
+        /* 主内容 */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            width: calc(100% - 280px);
+            box-sizing: border-box;
+        }
+
+        /* 分类区块 */
+        .category-section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 140px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .section-count {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: auto;
+        }
+
+        /* 卡片网格 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .site-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .site-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--card-accent, var(--primary)), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .site-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .site-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-url {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .card-tag {
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-light);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .badge-free {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+        }
+
+        .badge-hot {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+        }
+
+        .badge-new {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+        }
+
+        .badge-recommend {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary-light);
+        }
+
+        /* 回到顶部 */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-about h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-about p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .footer-col h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 4px 0;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary-light);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-info {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            line-height: 2;
+        }
+
+        .footer-info a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-info a:hover {
+            color: var(--primary-light);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-social a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* 搜索结果提示 */
+        .search-result-info {
+            text-align: center;
+            padding: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            display: none;
+        }
+
+        .no-results .emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .no-results h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .no-results p {
+            color: var(--text-secondary);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .hero {
+                margin-left: 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .navbar {
+                padding: 0 1rem;
+            }
+
+            .navbar-links {
+                display: none;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 64px;
+                width: 280px;
+                height: calc(100vh - 64px);
+                transition: left 0.3s ease;
+                z-index: 998;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .stats {
+                gap: 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* 汉堡菜单按钮 */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 28px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: var(--text);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 997;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* 动画 */
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hidden-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航 -->
+    <nav class="navbar">
+        <button class="menu-toggle" onclick="toggleMobileSidebar()" aria-label="菜单">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <a href="#" class="navbar-brand" onclick="resetSearch()">
+            <div class="navbar-logo">AI</div>
+            <span class="navbar-title" data-zh="常用工具导航" data-en="Tool Navigation">常用工具导航</span>
+        </a>
+        <div class="navbar-links">
+            <a href="#ai-chat">AI对话</a>
+            <a href="#ai-draw">AI绘画</a>
+            <a href="#video">视频工具</a>
+            <a href="#voice">配音工具</a>
+            <a href="#image">图片素材</a>
+            <a href="javascript:void(0)" onclick="document.getElementById('searchInput').focus()">🔍</a>
+        </div>
+        <button class="lang-toggle" onclick="toggleLanguage()" title="切换语言">中</button>
+        <button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+    </nav>
+
+    <!-- Hero区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 data-zh="🚀 发现最好用的AI工具" data-en="🚀 Discover the Best AI Tools">🚀 发现最好用的AI工具</h1>
+            <p data-zh="收录全网优质AI工具、视频剪辑、配音平台、素材网站等，助你高效工作与创作" data-en="Curated collection of quality AI tools, video editors, voice platforms, and stock sites to boost your productivity">收录全网优质AI工具、视频剪辑、配音平台、素材网站等，助你高效工作与创作</p>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="搜索AI工具、网站名称、功能关键词..." data-zh-placeholder="搜索AI工具、网站名称、功能关键词..." data-en-placeholder="Search AI tools, website names, keywords..." onkeyup="handleSearch(event)" autocomplete="off">
+                    <button class="search-btn" onclick="performSearch()" data-zh="搜索" data-en="Search">搜索</button>
+                </div>
+                <div class="search-tags">
+                    <span class="search-tag" onclick="quickSearch('ChatGPT')">ChatGPT</span>
+                    <span class="search-tag" onclick="quickSearch('AI绘画')">AI绘画</span>
+                    <span class="search-tag" onclick="quickSearch('视频剪辑')">视频剪辑</span>
+                    <span class="search-tag" onclick="quickSearch('配音')">配音</span>
+                    <span class="search-tag" onclick="quickSearch('免费')">免费素材</span>
+                    <span class="search-tag" onclick="quickSearch('AI写作')">AI写作</span>
+                    <span class="search-tag" onclick="quickSearch('设计')">设计工具</span>
+                </div>
+                <!-- 搜索结果提示 -->
+                <div class="search-result-info" id="searchResultInfo"></div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalSites">200+</div>
+                    <div class="stat-label" data-zh="收录网站" data-en="Sites">收录网站</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label" data-zh="分类目录" data-en="Categories">分类目录</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-zh="每日" data-en="Updated">每日</div>
+                    <div class="stat-label" data-zh="持续更新" data-en="Daily">持续更新</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 分类导航 -->
+    <div class="content-container">
+        <!-- 移动端侧边栏遮罩 -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+        <div class="sidebar">
+            <div class="category-nav">
+                <div class="category-tabs" id="categoryTabs">
+                    <div class="category-tab active" onclick="scrollToCategory('all')" data-category="all">
+                        <span class="tab-icon">📋</span>
+                        <span class="tab-text" data-zh="全部" data-en="All">全部</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('ai-chat')" data-category="ai-chat">
+                        <span class="tab-icon">💬</span>
+                        <span class="tab-text" data-zh="AI对话" data-en="AI Chat">AI对话</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('ai-draw')" data-category="ai-draw">
+                        <span class="tab-icon">🎨</span>
+                        <span class="tab-text" data-zh="AI绘画" data-en="AI Drawing">AI绘画</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('ai-write')" data-category="ai-write">
+                        <span class="tab-icon">✍️</span>
+                        <span class="tab-text" data-zh="AI写作" data-en="AI Writing">AI写作</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('ai-code')" data-category="ai-code">
+                        <span class="tab-icon">💻</span>
+                        <span class="tab-text" data-zh="AI编程" data-en="AI Coding">AI编程</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('video')" data-category="video">
+                        <span class="tab-icon">🎬</span>
+                        <span class="tab-text" data-zh="视频剪辑" data-en="Video Edit">视频剪辑</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('ai-video')" data-category="ai-video">
+                        <span class="tab-icon">📹</span>
+                        <span class="tab-text" data-zh="AI视频" data-en="AI Video">AI视频</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('voice')" data-category="voice">
+                        <span class="tab-icon">🎙️</span>
+                        <span class="tab-text" data-zh="配音工具" data-en="Voice Tools">配音工具</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('image')" data-category="image">
+                        <span class="tab-icon">🖼️</span>
+                        <span class="tab-text" data-zh="图片素材" data-en="Stock Image">图片素材</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('design')" data-category="design">
+                        <span class="tab-icon">🎯</span>
+                        <span class="tab-text" data-zh="设计工具" data-en="Design Tools">设计工具</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('office')" data-category="office">
+                        <span class="tab-icon">📊</span>
+                        <span class="tab-text" data-zh="办公效率" data-en="Office Tools">办公效率</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('music')" data-category="music">
+                        <span class="tab-icon">🎵</span>
+                        <span class="tab-text" data-zh="AI音乐" data-en="AI Music">AI音乐</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('knowledge')" data-category="knowledge">
+                        <span class="tab-icon">📚</span>
+                        <span class="tab-text" data-zh="知识学习" data-en="Knowledge">知识学习</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('history')" data-category="history">
+                        <span class="tab-icon">🏛️</span>
+                        <span class="tab-text" data-zh="历史文化" data-en="History">历史文化</span>
+                    </div>
+                    <div class="category-tab" onclick="scrollToCategory('dev')" data-category="dev">
+                        <span class="tab-icon">🔧</span>
+                        <span class="tab-text" data-zh="开发工具" data-en="Dev Tools">开发工具</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- 主内容区 -->
+    <main class="main-content" id="mainContent">
+
+        <div class="no-results" id="noResults">
+            <div class="emoji">🔍</div>
+            <h3 data-zh="未找到相关结果" data-en="No results found">未找到相关结果</h3>
+            <p data-zh="试试其他关键词，或者 查看全部工具" data-en="Try other keywords, or view all tools">试试其他关键词，或者 <a href="javascript:void(0)" onclick="resetSearch()" style="color: var(--primary-light)">查看全部工具</a></p>
+        </div>
+
+        <!-- ========== AI对话 ========== -->
+        <section class="category-section fade-in" id="ai-chat">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(99,102,241,0.15);">💬</div>
+                <h2 class="section-title">AI对话助手</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://chat.openai.com" target="_blank" style="--card-accent: #10a37f">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,163,127,0.15);">🤖</div>
+                        <div class="card-info">
+                            <div class="card-name">ChatGPT</div>
+                            <div class="card-url">chat.openai.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">OpenAI推出的AI对话模型，支持GPT-4o、GPT-4等多种模型，功能强大</div>
+                    <div class="card-tags"><span class="card-tag">对话</span><span class="card-tag">写作</span><span class="card-tag">编程</span></div>
+                </a>
+
+                <a class="site-card" href="https://kimi.moonshot.cn" target="_blank" style="--card-accent: #6366f1">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">🌙</div>
+                        <div class="card-info">
+                            <div class="card-name">Kimi (月之暗面)</div>
+                            <div class="card-url">kimi.moonshot.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">支持20万字超长上下文，擅长文档分析、联网搜索，国产AI对话标杆</div>
+                    <div class="card-tags"><span class="card-tag">长文本</span><span class="card-tag">联网</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://tongyi.aliyun.com" target="_blank" style="--card-accent: #6366f1">
+                    <span class="card-badge badge-recommend">推荐</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">🔮</div>
+                        <div class="card-info">
+                            <div class="card-name">通义千问</div>
+                            <div class="card-url">tongyi.aliyun.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">阿里巴巴推出的AI大模型，支持对话、写作、绘画、编程等多种功能</div>
+                    <div class="card-tags"><span class="card-tag">阿里</span><span class="card-tag">多模态</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://yiyan.baidu.com" target="_blank" style="--card-accent: #3b82f6">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">📝</div>
+                        <div class="card-info">
+                            <div class="card-name">文心一言</div>
+                            <div class="card-url">yiyan.baidu.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">百度推出的AI对话助手，基于文心大模型，擅长中文理解与创作</div>
+                    <div class="card-tags"><span class="card-tag">百度</span><span class="card-tag">中文</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.doubao.com" target="_blank" style="--card-accent: #ec4899">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(236,72,153,0.15);">🫘</div>
+                        <div class="card-info">
+                            <div class="card-name">豆包</div>
+                            <div class="card-url">www.doubao.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">字节跳动推出的AI助手，支持聊天、写作、翻译、编程等，体验流畅</div>
+                    <div class="card-tags"><span class="card-tag">字节</span><span class="card-tag">对话</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://chat.deepseek.com" target="_blank" style="--card-accent: #3b82f6">
+                    <span class="card-badge badge-new">✨ 新上</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🔬</div>
+                        <div class="card-info">
+                            <div class="card-name">DeepSeek</div>
+                            <div class="card-url">chat.deepseek.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">深度求索推出的AI助手，以强大推理能力著称，编程和数学能力出众</div>
+                    <div class="card-tags"><span class="card-tag">推理</span><span class="card-tag">编程</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://xinghuo.xfyun.cn" target="_blank" style="--card-accent: #6366f1">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">✨</div>
+                        <div class="card-info">
+                            <div class="card-name">讯飞星火</div>
+                            <div class="card-url">xinghuo.xfyun.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">科大讯飞推出的AI认知大模型，在中文理解和语音交互方面表现优异</div>
+                    <div class="card-tags"><span class="card-tag">讯飞</span><span class="card-tag">语音</span><span class="card-tag">中文</span></div>
+                </a>
+
+                <a class="site-card" href="https://hunyuan.tencent.com" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🌐</div>
+                        <div class="card-info">
+                            <div class="card-name">腾讯混元</div>
+                            <div class="card-url">hunyuan.tencent.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">腾讯推出的大语言模型，支持多轮对话、内容创作、知识问答等</div>
+                    <div class="card-tags"><span class="card-tag">腾讯</span><span class="card-tag">对话</span><span class="card-tag">创作</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.tiangong.cn" target="_blank" style="--card-accent: #10b981">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15);">🏗️</div>
+                        <div class="card-info">
+                            <div class="card-name">天工AI</div>
+                            <div class="card-url">www.tiangong.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">昆仑万维推出的AI助手，支持联网搜索、文档分析、AI绘画等功能</div>
+                    <div class="card-tags"><span class="card-tag">搜索</span><span class="card-tag">对话</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.baichuan-ai.com" target="_blank" style="--card-accent: #f59e0b">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(245,158,11,0.15);">🏔️</div>
+                        <div class="card-info">
+                            <div class="card-name">百川智能</div>
+                            <div class="card-url">www.baichuan-ai.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">百川智能推出的AI大模型助手，融合搜索增强和大模型能力</div>
+                    <div class="card-tags"><span class="card-tag">搜索增强</span><span class="card-tag">对话</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.minimaxi.com" target="_blank" style="--card-accent: #8b5cf6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15);">🌟</div>
+                        <div class="card-info">
+                            <div class="card-name">海螺AI (MiniMax)</div>
+                            <div class="card-url">hailuoai.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">MiniMax推出的AI助手，支持语音对话、角色扮演、长文本处理</div>
+                    <div class="card-tags"><span class="card-tag">语音</span><span class="card-tag">角色</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://chatglm.cn" target="_blank" style="--card-accent: #06b6d4">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(6,182,212,0.15);">🧠</div>
+                        <div class="card-info">
+                            <div class="card-name">智谱清言 (ChatGLM)</div>
+                            <div class="card-url">chatglm.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">智谱AI推出的大模型助手，学术背景深厚，擅长专业知识问答</div>
+                    <div class="card-tags"><span class="card-tag">学术</span><span class="card-tag">知识</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://claude.ai" target="_blank" style="--card-accent: #d4a574">
+                    <span class="card-badge badge-recommend">推荐</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(212,165,116,0.15);">🎭</div>
+                        <div class="card-info">
+                            <div class="card-name">Claude</div>
+                            <div class="card-url">claude.ai</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">Anthropic推出的AI助手，擅长长文本分析、编程、创意写作，安全可靠</div>
+                    <div class="card-tags"><span class="card-tag">长文本</span><span class="card-tag">编程</span><span class="card-tag">写作</span></div>
+                </a>
+
+                <a class="site-card" href="https://gemini.google.com" target="_blank" style="--card-accent: #4285f4">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(66,133,244,0.15);">💎</div>
+                        <div class="card-info">
+                            <div class="card-name">Google Gemini</div>
+                            <div class="card-url">gemini.google.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">Google推出的多模态AI模型，支持文本、图像、音频等多种输入</div>
+                    <div class="card-tags"><span class="card-tag">Google</span><span class="card-tag">多模态</span></div>
+                </a>
+
+                <a class="site-card" href="https://yuanbao.tencent.com" target="_blank" style="--card-accent: #3b82f6">
+                    <span class="card-badge badge-new">✨ 新上</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">💰</div>
+                        <div class="card-info">
+                            <div class="card-name">腾讯元宝</div>
+                            <div class="card-url">yuanbao.tencent.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">腾讯推出的AI助手应用，集合多种大模型能力，支持多种日常任务</div>
+                    <div class="card-tags"><span class="card-tag">腾讯</span><span class="card-tag">多模型</span><span class="card-tag">免费</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== AI绘画 ========== -->
+        <section class="category-section fade-in" id="ai-draw">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(236,72,153,0.15);">🎨</div>
+                <h2 class="section-title">AI绘画 / 图像生成</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://www.midjourney.com" target="_blank" style="--card-accent: #ec4899">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(236,72,153,0.15);">🎨</div>
+                        <div class="card-info">
+                            <div class="card-name">Midjourney</div>
+                            <div class="card-url">midjourney.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">全球顶级AI绘画工具，以精美的艺术风格著称，设计师必备</div>
+                    <div class="card-tags"><span class="card-tag">AI绘画</span><span class="card-tag">艺术</span><span class="card-tag">设计</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.liblib.art" target="_blank" style="--card-accent: #8b5cf6">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15);">🖌️</div>
+                        <div class="card-info">
+                            <div class="card-name">LibLib AI</div>
+                            <div class="card-url">www.liblib.art</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">国内领先的AI绘画社区和模型分享平台，海量Stable Diffusion模型</div>
+                    <div class="card-tags"><span class="card-tag">模型库</span><span class="card-tag">SD</span><span class="card-tag">社区</span></div>
+                </a>
+
+                <a class="site-card" href="https://stability.ai" target="_blank" style="--card-accent: #a855f7">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(168,85,247,0.15);">🌀</div>
+                        <div class="card-info">
+                            <div class="card-name">Stable Diffusion</div>
+                            <div class="card-url">stability.ai</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">开源AI绘画模型，可本地部署，自定义程度极高，社区生态丰富</div>
+                    <div class="card-tags"><span class="card-tag">开源</span><span class="card-tag">本地部署</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.dall-e.com" target="_blank" style="--card-accent: #10b981">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15);">🖼️</div>
+                        <div class="card-info">
+                            <div class="card-name">DALL·E 3</div>
+                            <div class="card-url">openai.com/dall-e-3</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">OpenAI推出的AI图像生成工具，理解力强，可通过ChatGPT直接使用</div>
+                    <div class="card-tags"><span class="card-tag">OpenAI</span><span class="card-tag">文生图</span></div>
+                </a>
+
+                <a class="site-card" href="https://tongyi.aliyun.com/wanxiang" target="_blank" style="--card-accent: #6366f1">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">🎆</div>
+                        <div class="card-info">
+                            <div class="card-name">通义万相</div>
+                            <div class="card-url">tongyi.aliyun.com/wanxiang</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">阿里推出的AI绘画工具，支持文生图、图生图、风格迁移等功能</div>
+                    <div class="card-tags"><span class="card-tag">阿里</span><span class="card-tag">文生图</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://jimeng.jianying.com" target="_blank" style="--card-accent: #f59e0b">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(245,158,11,0.15);">💫</div>
+                        <div class="card-info">
+                            <div class="card-name">即梦AI</div>
+                            <div class="card-url">jimeng.jianying.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">字节跳动旗下AI创作平台，支持AI绘画和AI视频生成，质量优秀</div>
+                    <div class="card-tags"><span class="card-tag">字节</span><span class="card-tag">绘画</span><span class="card-tag">视频</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.canva.cn" target="_blank" style="--card-accent: #06b6d4">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(6,182,212,0.15);">🎯</div>
+                        <div class="card-info">
+                            <div class="card-name">Canva AI绘画</div>
+                            <div class="card-url">www.canva.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">Canva内置的AI图片生成功能，结合设计模板使用更便捷</div>
+                    <div class="card-tags"><span class="card-tag">设计</span><span class="card-tag">模板</span><span class="card-tag">AI绘画</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.yige.baidu.com" target="_blank" style="--card-accent: #3b82f6">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🎋</div>
+                        <div class="card-info">
+                            <div class="card-name">文心一格</div>
+                            <div class="card-url">yige.baidu.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">百度推出的AI艺术和创意辅助平台，支持多种中国风艺术风格</div>
+                    <div class="card-tags"><span class="card-tag">百度</span><span class="card-tag">国风</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.seaart.ai" target="_blank" style="--card-accent: #14b8a6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(20,184,166,0.15);">🌊</div>
+                        <div class="card-info">
+                            <div class="card-name">SeaArt (海艺)</div>
+                            <div class="card-url">www.seaart.ai</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI绘画创作平台，提供大量模型和作品参考，支持在线生成</div>
+                    <div class="card-tags"><span class="card-tag">社区</span><span class="card-tag">模型</span><span class="card-tag">在线生成</span></div>
+                </a>
+
+                <a class="site-card" href="https://pixso.cn/ai" target="_blank" style="--card-accent: #ec4899">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(236,72,153,0.15);">✏️</div>
+                        <div class="card-info">
+                            <div class="card-name">Pixso AI</div>
+                            <div class="card-url">pixso.cn/ai</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">Pixso设计工具内置的AI绘画功能，设计师可直接在设计稿中使用</div>
+                    <div class="card-tags"><span class="card-tag">设计</span><span class="card-tag">AI绘画</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== AI写作 ========== -->
+        <section class="category-section fade-in" id="ai-write">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(245,158,11,0.15);">✍️</div>
+                <h2 class="section-title">AI写作 / 文案</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://effidit.qq.com" target="_blank" style="--card-accent: #3b82f6">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">📝</div>
+                        <div class="card-info">
+                            <div class="card-name">Effidit 写作助手</div>
+                            <div class="card-url">effidit.qq.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">腾讯AI Lab推出的智能写作助手，提供纠错、补全、改写等功能</div>
+                    <div class="card-tags"><span class="card-tag">腾讯</span><span class="card-tag">写作</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://xiezuocat.com" target="_blank" style="--card-accent: #f59e0b">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(245,158,11,0.15);">🐱</div>
+                        <div class="card-info">
+                            <div class="card-name">秘塔写作猫</div>
+                            <div class="card-url">xiezuocat.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI写作辅助工具，支持改写、续写、纠错、翻译等多种功能</div>
+                    <div class="card-tags"><span class="card-tag">写作</span><span class="card-tag">纠错</span><span class="card-tag">改写</span></div>
+                </a>
+
+                <a class="site-card" href="https://jasper.ai" target="_blank" style="--card-accent: #ef4444">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(239,68,68,0.15);">💎</div>
+                        <div class="card-info">
+                            <div class="card-name">Jasper AI</div>
+                            <div class="card-url">jasper.ai</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">专业的AI营销文案写作工具，支持多种模板和品牌声音定制</div>
+                    <div class="card-tags"><span class="card-tag">营销</span><span class="card-tag">文案</span><span class="card-tag">品牌</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.notion.so/product/ai" target="_blank" style="--card-accent: #000">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(255,255,255,0.1);">📋</div>
+                        <div class="card-info">
+                            <div class="card-name">Notion AI</div>
+                            <div class="card-url">notion.so/product/ai</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">Notion集成的AI写作功能，可在笔记中直接使用AI辅助写作、总结</div>
+                    <div class="card-tags"><span class="card-tag">笔记</span><span class="card-tag">写作</span><span class="card-tag">总结</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.copy.ai" target="_blank" style="--card-accent: #8b5cf6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15);">📄</div>
+                        <div class="card-info">
+                            <div class="card-name">Copy.ai</div>
+                            <div class="card-url">copy.ai</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI营销文案生成器，快速生成社交媒体文案、广告语、邮件等</div>
+                    <div class="card-tags"><span class="card-tag">文案</span><span class="card-tag">营销</span><span class="card-tag">社媒</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.grammarly.com" target="_blank" style="--card-accent: #10b981">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15);">✅</div>
+                        <div class="card-info">
+                            <div class="card-name">Grammarly</div>
+                            <div class="card-url">grammarly.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI英文写作辅助工具，提供语法检查、风格改写、AI写作等功能</div>
+                    <div class="card-tags"><span class="card-tag">英文</span><span class="card-tag">语法</span><span class="card-tag">AI写作</span></div>
+                </a>
+
+                <a class="site-card" href="https://wenku.baidu.com" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">📚</div>
+                        <div class="card-info">
+                            <div class="card-name">百度文库AI</div>
+                            <div class="card-url">wenku.baidu.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">百度文库集成AI能力，一键生成PPT、文档、思维导图等</div>
+                    <div class="card-tags"><span class="card-tag">文档</span><span class="card-tag">PPT</span><span class="card-tag">AI生成</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.giiso.com" target="_blank" style="--card-accent: #06b6d4">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(6,182,212,0.15);">🖊️</div>
+                        <div class="card-info">
+                            <div class="card-name">Giiso写作机器人</div>
+                            <div class="card-url">www.giiso.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">智能写作平台，支持自媒体文章、新闻稿件、营销文案等内容生成</div>
+                    <div class="card-tags"><span class="card-tag">自媒体</span><span class="card-tag">文章</span><span class="card-tag">AI写作</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== AI编程 ========== -->
+        <section class="category-section fade-in" id="ai-code">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(16,185,129,0.15);">💻</div>
+                <h2 class="section-title">AI编程 / 开发</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://github.com/features/copilot" target="_blank" style="--card-accent: #6366f1">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">🤖</div>
+                        <div class="card-info">
+                            <div class="card-name">GitHub Copilot</div>
+                            <div class="card-url">github.com/features/copilot</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">GitHub推出的AI编程助手，深度集成IDE，自动补全代码效率极高</div>
+                    <div class="card-tags"><span class="card-tag">编程</span><span class="card-tag">代码补全</span><span class="card-tag">IDE</span></div>
+                </a>
+
+                <a class="site-card" href="https://cursor.sh" target="_blank" style="--card-accent: #000">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(255,255,255,0.1);">⚡</div>
+                        <div class="card-info">
+                            <div class="card-name">Cursor</div>
+                            <div class="card-url">cursor.sh</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI-first的代码编辑器，基于VS Code，内置AI对话和代码生成</div>
+                    <div class="card-tags"><span class="card-tag">编辑器</span><span class="card-tag">AI编程</span><span class="card-tag">VS Code</span></div>
+                </a>
+
+                <a class="site-card" href="https://tongyi.aliyun.com/lingma" target="_blank" style="--card-accent: #6366f1">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">🐴</div>
+                        <div class="card-info">
+                            <div class="card-name">通义灵码</div>
+                            <div class="card-url">tongyi.aliyun.com/lingma</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">阿里推出的AI编程助手，支持多种IDE，代码补全和生成能力强</div>
+                    <div class="card-tags"><span class="card-tag">阿里</span><span class="card-tag">IDE插件</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://codeium.com" target="_blank" style="--card-accent: #10b981">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15);">🔋</div>
+                        <div class="card-info">
+                            <div class="card-name">Codeium</div>
+                            <div class="card-url">codeium.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">免费的AI代码补全工具，支持70+编程语言和40+IDE</div>
+                    <div class="card-tags"><span class="card-tag">免费</span><span class="card-tag">代码补全</span><span class="card-tag">多语言</span></div>
+                </a>
+
+                <a class="site-card" href="https://coze.cn" target="_blank" style="--card-accent: #8b5cf6">
+                    <span class="card-badge badge-recommend">推荐</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15);">🧩</div>
+                        <div class="card-info">
+                            <div class="card-name">扣子 (Coze)</div>
+                            <div class="card-url">coze.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">字节跳动推出的AI Bot开发平台，零代码搭建AI应用和智能体</div>
+                    <div class="card-tags"><span class="card-tag">零代码</span><span class="card-tag">Bot</span><span class="card-tag">智能体</span></div>
+                </a>
+
+                <a class="site-card" href="https://replit.com" target="_blank" style="--card-accent: #f59e0b">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(245,158,11,0.15);">🔄</div>
+                        <div class="card-info">
+                            <div class="card-name">Replit AI</div>
+                            <div class="card-url">replit.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">在线编程平台，集成AI代码生成、调试、部署一体化开发环境</div>
+                    <div class="card-tags"><span class="card-tag">在线IDE</span><span class="card-tag">AI编程</span><span class="card-tag">部署</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== 视频剪辑 ========== -->
+        <section class="category-section fade-in" id="video">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(239,68,68,0.15);">🎬</div>
+                <h2 class="section-title">视频剪辑 / 制作</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://www.capcut.cn" target="_blank" style="--card-accent: #000">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(255,255,255,0.1);">✂️</div>
+                        <div class="card-info">
+                            <div class="card-name">剪映</div>
+                            <div class="card-url">www.capcut.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">字节跳动旗下视频剪辑工具，内置AI字幕、AI配音、模板丰富，新手友好</div>
+                    <div class="card-tags"><span class="card-tag">剪辑</span><span class="card-tag">AI字幕</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.bilibili.com/blackboard/x/bcut" target="_blank" style="--card-accent: #00a1d6">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(0,161,214,0.15);">🎬</div>
+                        <div class="card-info">
+                            <div class="card-name">必剪</div>
+                            <div class="card-url">bilibili.com/bcut</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">B站推出的视频剪辑工具，内置虚拟形象、AI字幕等，适合UP主</div>
+                    <div class="card-tags"><span class="card-tag">B站</span><span class="card-tag">UP主</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.adobe.com/products/premiere.html" target="_blank" style="--card-accent: #9999ff">
+                    <span class="card-badge badge-recommend">推荐</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(153,153,255,0.15);">🎞️</div>
+                        <div class="card-info">
+                            <div class="card-name">Adobe Premiere Pro</div>
+                            <div class="card-url">adobe.com/premiere</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">专业级视频剪辑软件，新版集成AI功能，行业标准工具</div>
+                    <div class="card-tags"><span class="card-tag">专业</span><span class="card-tag">剪辑</span><span class="card-tag">AI功能</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.vegascreativesoftware.com" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🎥</div>
+                        <div class="card-info">
+                            <div class="card-name">Vegas Pro</div>
+                            <div class="card-url">vegascreativesoftware.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">专业视频编辑软件，操作直观，渲染速度快，适合专业创作者</div>
+                    <div class="card-tags"><span class="card-tag">专业</span><span class="card-tag">剪辑</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.apple.com/final-cut-pro/" target="_blank" style="--card-accent: #6366f1">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">🍎</div>
+                        <div class="card-info">
+                            <div class="card-name">Final Cut Pro</div>
+                            <div class="card-url">apple.com/final-cut-pro</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">苹果官方视频剪辑软件，Mac用户首选，性能优化极佳</div>
+                    <div class="card-tags"><span class="card-tag">Mac</span><span class="card-tag">专业</span><span class="card-tag">苹果</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.blackmagicdesign.com/products/davinciresolve" target="_blank" style="--card-accent: #ef4444">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(239,68,68,0.15);">🎭</div>
+                        <div class="card-info">
+                            <div class="card-name">DaVinci Resolve</div>
+                            <div class="card-url">blackmagicdesign.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">达芬奇调色/剪辑软件，免费版功能强大，调色能力业界顶级</div>
+                    <div class="card-tags"><span class="card-tag">调色</span><span class="card-tag">免费</span><span class="card-tag">专业</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.wondershare.cn/products/filmora-video-editor.html" target="_blank" style="--card-accent: #10b981">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15);">🎬</div>
+                        <div class="card-info">
+                            <div class="card-name">万兴喵影</div>
+                            <div class="card-url">wondershare.cn/filmora</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">万兴科技推出的视频剪辑软件，操作简单，内置AI功能和丰富特效</div>
+                    <div class="card-tags"><span class="card-tag">简单</span><span class="card-tag">AI</span><span class="card-tag">特效</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.kdenlive.org" target="_blank" style="--card-accent: #3b82f6">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🐧</div>
+                        <div class="card-info">
+                            <div class="card-name">Kdenlive</div>
+                            <div class="card-url">kdenlive.org</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">开源免费的视频编辑器，跨平台支持，功能完善，社区活跃</div>
+                    <div class="card-tags"><span class="card-tag">开源</span><span class="card-tag">免费</span><span class="card-tag">跨平台</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== AI视频 ========== -->
+        <section class="category-section fade-in" id="ai-video">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(139,92,246,0.15);">📹</div>
+                <h2 class="section-title">AI视频生成</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://openai.com/sora" target="_blank" style="--card-accent: #10a37f">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,163,127,0.15);">🎬</div>
+                        <div class="card-info">
+                            <div class="card-name">Sora</div>
+                            <div class="card-url">openai.com/sora</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">OpenAI推出的文本生成视频模型，可生成长达一分钟的高质量视频</div>
+                    <div class="card-tags"><span class="card-tag">文生视频</span><span class="card-tag">OpenAI</span></div>
+                </a>
+
+                <a class="site-card" href="https://kling.kuaishou.com" target="_blank" style="--card-accent: #f59e0b">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(245,158,11,0.15);">🎥</div>
+                        <div class="card-info">
+                            <div class="card-name">可灵AI</div>
+                            <div class="card-url">kling.kuaishou.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">快手推出的AI视频生成工具，支持文生视频、图生视频，效果出色</div>
+                    <div class="card-tags"><span class="card-tag">快手</span><span class="card-tag">文生视频</span><span class="card-tag">图生视频</span></div>
+                </a>
+
+                <a class="site-card" href="https://jimeng.jianying.com" target="_blank" style="--card-accent: #ec4899">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(236,72,153,0.15);">💫</div>
+                        <div class="card-info">
+                            <div class="card-name">即梦AI视频</div>
+                            <div class="card-url">jimeng.jianying.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">字节跳动旗下AI视频生成平台，支持文字和图片生成视频</div>
+                    <div class="card-tags"><span class="card-tag">字节</span><span class="card-tag">AI视频</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.runwayml.com" target="_blank" style="--card-accent: #6366f1">
+                    <span class="card-badge badge-recommend">推荐</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">✈️</div>
+                        <div class="card-info">
+                            <div class="card-name">Runway Gen-3</div>
+                            <div class="card-url">runwayml.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">领先的AI视频生成和编辑平台，Gen-3模型视频质量业界领先</div>
+                    <div class="card-tags"><span class="card-tag">Gen-3</span><span class="card-tag">视频编辑</span><span class="card-tag">AI</span></div>
+                </a>
+
+                <a class="site-card" href="https://pika.art" target="_blank" style="--card-accent: #ec4899">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(236,72,153,0.15);">⚡</div>
+                        <div class="card-info">
+                            <div class="card-name">Pika</div>
+                            <div class="card-url">pika.art</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI视频生成和编辑工具，支持文生视频、图生视频、视频编辑</div>
+                    <div class="card-tags"><span class="card-tag">文生视频</span><span class="card-tag">编辑</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.heygen.com" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">👤</div>
+                        <div class="card-info">
+                            <div class="card-name">HeyGen</div>
+                            <div class="card-url">heygen.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI数字人视频生成平台，快速创建真人口播视频，支持多语言</div>
+                    <div class="card-tags"><span class="card-tag">数字人</span><span class="card-tag">口播</span><span class="card-tag">多语言</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.synthesia.io" target="_blank" style="--card-accent: #8b5cf6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15);">🧑‍💼</div>
+                        <div class="card-info">
+                            <div class="card-name">Synthesia</div>
+                            <div class="card-url">synthesia.io</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI视频生成平台，提供虚拟主播，可快速制作培训、营销视频</div>
+                    <div class="card-tags"><span class="card-tag">虚拟主播</span><span class="card-tag">培训</span><span class="card-tag">营销</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.d-id.com" target="_blank" style="--card-accent: #14b8a6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(20,184,166,0.15);">🗣️</div>
+                        <div class="card-info">
+                            <div class="card-name">D-ID</div>
+                            <div class="card-url">d-id.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI数字人说话视频生成，上传照片即可生成会说话的视频</div>
+                    <div class="card-tags"><span class="card-tag">数字人</span><span class="card-tag">照片说话</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== 配音工具 ========== -->
+        <section class="category-section fade-in" id="voice">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(6,182,212,0.15);">🎙️</div>
+                <h2 class="section-title">配音 / 语音合成</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://www.ttson.cn" target="_blank" style="--card-accent: #6366f1">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">🔊</div>
+                        <div class="card-info">
+                            <div class="card-name">TTSon 配音</div>
+                            <div class="card-url">www.ttson.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">在线AI配音平台，支持多种音色和语言，适合短视频配音</div>
+                    <div class="card-tags"><span class="card-tag">配音</span><span class="card-tag">多音色</span><span class="card-tag">短视频</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.elevenlabs.io" target="_blank" style="--card-accent: #000">
+                    <span class="card-badge badge-recommend">推荐</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(255,255,255,0.1);">🎤</div>
+                        <div class="card-info">
+                            <div class="card-name">ElevenLabs</div>
+                            <div class="card-url">elevenlabs.io</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">全球领先的AI语音合成平台，音质极其自然，支持声音克隆</div>
+                    <div class="card-tags"><span class="card-tag">语音合成</span><span class="card-tag">声音克隆</span><span class="card-tag">高质量</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.peiyinxiu.com" target="_blank" style="--card-accent: #ec4899">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(236,72,153,0.15);">🎵</div>
+                        <div class="card-info">
+                            <div class="card-name">配音秀</div>
+                            <div class="card-url">peiyinxiu.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">趣味配音社区和AI配音工具，支持影视片段配音和AI语音合成</div>
+                    <div class="card-tags"><span class="card-tag">配音</span><span class="card-tag">社区</span><span class="card-tag">趣味</span></div>
+                </a>
+
+                <a class="site-card" href="https://azure.microsoft.com/zh-cn/products/ai-services/text-to-speech" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🔵</div>
+                        <div class="card-info">
+                            <div class="card-name">Azure TTS</div>
+                            <div class="card-url">azure.microsoft.com/tts</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">微软Azure语音合成服务，提供超过400种声音，支持SSML精细控制</div>
+                    <div class="card-tags"><span class="card-tag">微软</span><span class="card-tag">400+声音</span><span class="card-tag">API</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.biaobai.com" target="_blank" style="--card-accent: #f59e0b">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(245,158,11,0.15);">📢</div>
+                        <div class="card-info">
+                            <div class="card-name">标贝科技</div>
+                            <div class="card-url">biaobai.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">专业AI语音合成服务商，提供高质量中文语音合成和声音定制</div>
+                    <div class="card-tags"><span class="card-tag">专业</span><span class="card-tag">中文TTS</span><span class="card-tag">定制</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.naturalreaders.com" target="_blank" style="--card-accent: #10b981">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15);">📖</div>
+                        <div class="card-info">
+                            <div class="card-name">NaturalReader</div>
+                            <div class="card-url">naturalreaders.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">自然语音朗读工具，支持PDF、网页等多种格式文本转语音</div>
+                    <div class="card-tags"><span class="card-tag">朗读</span><span class="card-tag">PDF</span><span class="card-tag">多格式</span></div>
+                </a>
+
+                <a class="site-card" href="https://murf.ai" target="_blank" style="--card-accent: #8b5cf6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15);">🎙️</div>
+                        <div class="card-info">
+                            <div class="card-name">Murf AI</div>
+                            <div class="card-url">murf.ai</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI配音生成器，提供120+声音，适合广告、课程、播客配音</div>
+                    <div class="card-tags"><span class="card-tag">配音</span><span class="card-tag">广告</span><span class="card-tag">课程</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.xfyun.cn/services/online_tts" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🗣️</div>
+                        <div class="card-info">
+                            <div class="card-name">讯飞语音合成</div>
+                            <div class="card-url">xfyun.cn/tts</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">科大讯飞语音合成服务，中文发音自然流畅，行业应用广泛</div>
+                    <div class="card-tags"><span class="card-tag">讯飞</span><span class="card-tag">中文</span><span class="card-tag">API</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== 图片素材 ========== -->
+        <section class="category-section fade-in" id="image">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(236,72,153,0.15);">🖼️</div>
+                <h2 class="section-title">图片素材 / 分享</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://unsplash.com" target="_blank" style="--card-accent: #000">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(255,255,255,0.1);">📷</div>
+                        <div class="card-info">
+                            <div class="card-name">Unsplash</div>
+                            <div class="card-url">unsplash.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">全球最大的免费高清图片库，所有图片可免费商用，质量极高</div>
+                    <div class="card-tags"><span class="card-tag">免费</span><span class="card-tag">高清</span><span class="card-tag">商用</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.pexels.com/zh-cn/" target="_blank" style="--card-accent: #10b981">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15);">🌄</div>
+                        <div class="card-info">
+                            <div class="card-name">Pexels</div>
+                            <div class="card-url">pexels.com/zh-cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">免费高质量图片和视频素材库，支持中文搜索，无需注册即可下载</div>
+                    <div class="card-tags"><span class="card-tag">免费</span><span class="card-tag">视频</span><span class="card-tag">中文</span></div>
+                </a>
+
+                <a class="site-card" href="https://pixabay.com/zh/" target="_blank" style="--card-accent: #10b981">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15);">🎆</div>
+                        <div class="card-info">
+                            <div class="card-name">Pixabay</div>
+                            <div class="card-url">pixabay.com/zh</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">免费正版高清图片素材库，支持图片、视频、插画、矢量图等</div>
+                    <div class="card-tags"><span class="card-tag">免费</span><span class="card-tag">插画</span><span class="card-tag">矢量</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.zcool.com.cn" target="_blank" style="--card-accent: #ef4444">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(239,68,68,0.15);">🎨</div>
+                        <div class="card-info">
+                            <div class="card-name">站酷</div>
+                            <div class="card-url">zcool.com.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">中国最大的设计师社区，海量原创设计作品和素材分享</div>
+                    <div class="card-tags"><span class="card-tag">设计</span><span class="card-tag">社区</span><span class="card-tag">原创</span></div>
+                </a>
+
+                <a class="site-card" href="https://huaban.com" target="_blank" style="--card-accent: #ef4444">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(239,68,68,0.15);">📌</div>
+                        <div class="card-info">
+                            <div class="card-name">花瓣网</div>
+                            <div class="card-url">huaban.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">国内领先的图片收藏和分享平台，设计灵感聚集地</div>
+                    <div class="card-tags"><span class="card-tag">灵感</span><span class="card-tag">收藏</span><span class="card-tag">设计</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.iconfont.cn" target="_blank" style="--card-accent: #f59e0b">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(245,158,11,0.15);">🔣</div>
+                        <div class="card-info">
+                            <div class="card-name">iconfont (阿里图标库)</div>
+                            <div class="card-url">iconfont.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">阿里巴巴矢量图标库，提供海量免费图标素材，支持在线编辑</div>
+                    <div class="card-tags"><span class="card-tag">图标</span><span class="card-tag">矢量</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.hellorf.com" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">📸</div>
+                        <div class="card-info">
+                            <div class="card-name">站酷海洛</div>
+                            <div class="card-url">hellorf.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">正版图片素材交易平台，提供商业授权图片、插画、矢量素材</div>
+                    <div class="card-tags"><span class="card-tag">正版</span><span class="card-tag">商用</span><span class="card-tag">授权</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.588ku.com" target="_blank" style="--card-accent: #8b5cf6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15);">🎁</div>
+                        <div class="card-info">
+                            <div class="card-name">千库网</div>
+                            <div class="card-url">588ku.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">免抠PNG图片素材、背景、模板等设计素材下载平台</div>
+                    <div class="card-tags"><span class="card-tag">PNG</span><span class="card-tag">背景</span><span class="card-tag">模板</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.58pic.com" target="_blank" style="--card-accent: #06b6d4">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(6,182,212,0.15);">🖼️</div>
+                        <div class="card-info">
+                            <div class="card-name">千图网</div>
+                            <div class="card-url">58pic.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">专注设计素材下载，提供海报、名片、背景、PPT等模板素材</div>
+                    <div class="card-tags"><span class="card-tag">海报</span><span class="card-tag">PPT</span><span class="card-tag">模板</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.nipic.com" target="_blank" style="--card-accent: #10b981">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15);">🌐</div>
+                        <div class="card-info">
+                            <div class="card-name">昵图网</div>
+                            <div class="card-url">nipic.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">共享创意素材平台，提供大量平面设计素材和模板资源</div>
+                    <div class="card-tags"><span class="card-tag">素材</span><span class="card-tag">平面</span><span class="card-tag">共享</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.pinterest.com" target="_blank" style="--card-accent: #ef4444">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(239,68,68,0.15);">📌</div>
+                        <div class="card-info">
+                            <div class="card-name">Pinterest</div>
+                            <div class="card-url">pinterest.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">全球最大的图片灵感发现平台，设计师、创意人的灵感源泉</div>
+                    <div class="card-tags"><span class="card-tag">灵感</span><span class="card-tag">全球</span><span class="card-tag">收藏</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.remove.bg/zh" target="_blank" style="--card-accent: #3b82f6">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">✂️</div>
+                        <div class="card-info">
+                            <div class="card-name">Remove.bg</div>
+                            <div class="card-url">remove.bg/zh</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI自动抠图工具，一键去除图片背景，速度快效果好</div>
+                    <div class="card-tags"><span class="card-tag">抠图</span><span class="card-tag">去背景</span><span class="card-tag">AI</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== 设计工具 ========== -->
+        <section class="category-section fade-in" id="design">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(245,158,11,0.15);">🎯</div>
+                <h2 class="section-title">设计工具</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://www.figma.com" target="_blank" style="--card-accent: #a259ff">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(162,89,255,0.15);">🎨</div>
+                        <div class="card-info">
+                            <div class="card-name">Figma</div>
+                            <div class="card-url">figma.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">全球最流行的在线协作设计工具，UI/UX设计师必备</div>
+                    <div class="card-tags"><span class="card-tag">UI设计</span><span class="card-tag">协作</span><span class="card-tag">在线</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.canva.cn" target="_blank" style="--card-accent: #00c4cc">
+                    <span class="card-badge badge-recommend">推荐</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(0,196,204,0.15);">🎯</div>
+                        <div class="card-info">
+                            <div class="card-name">Canva可画</div>
+                            <div class="card-url">canva.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">在线平面设计工具，海量模板，非设计师也能轻松做出精美设计</div>
+                    <div class="card-tags"><span class="card-tag">模板</span><span class="card-tag">简单</span><span class="card-tag">AI</span></div>
+                </a>
+
+                <a class="site-card" href="https://pixso.cn" target="_blank" style="--card-accent: #6366f1">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">✏️</div>
+                        <div class="card-info">
+                            <div class="card-name">Pixso</div>
+                            <div class="card-url">pixso.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">国产在线协作设计工具，对标Figma，支持AI设计功能，免费好用</div>
+                    <div class="card-tags"><span class="card-tag">国产</span><span class="card-tag">协作</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.mastergo.com" target="_blank" style="--card-accent: #6366f1">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">📐</div>
+                        <div class="card-info">
+                            <div class="card-name">MasterGo</div>
+                            <div class="card-url">mastergo.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">国产在线产品设计工具，支持AI智能设计、团队协作</div>
+                    <div class="card-tags"><span class="card-tag">产品设计</span><span class="card-tag">协作</span><span class="card-tag">AI</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.gaoding.com" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🖌️</div>
+                        <div class="card-info">
+                            <div class="card-name">稿定设计</div>
+                            <div class="card-url">gaoding.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">在线设计作图工具，提供海报、电商、新媒体等设计模板</div>
+                    <div class="card-tags"><span class="card-tag">模板</span><span class="card-tag">电商</span><span class="card-tag">海报</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.chuangkit.com" target="_blank" style="--card-accent: #ec4899">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(236,72,153,0.15);">🎆</div>
+                        <div class="card-info">
+                            <div class="card-name">创客贴</div>
+                            <div class="card-url">chuangkit.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">在线图片编辑器和设计工具，提供丰富的模板和AI设计功能</div>
+                    <div class="card-tags"><span class="card-tag">模板</span><span class="card-tag">在线</span><span class="card-tag">AI</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== 办公效率 ========== -->
+        <section class="category-section fade-in" id="office">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(59,130,246,0.15);">📊</div>
+                <h2 class="section-title">办公效率 / AI办公</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://www.aippt.cn" target="_blank" style="--card-accent: #ef4444">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(239,68,68,0.15);">📊</div>
+                        <div class="card-info">
+                            <div class="card-name">AiPPT</div>
+                            <div class="card-url">aippt.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI一键生成PPT演示文稿，输入主题即可自动生成精美PPT</div>
+                    <div class="card-tags"><span class="card-tag">PPT</span><span class="card-tag">AI生成</span><span class="card-tag">演示</span></div>
+                </a>
+
+                <a class="site-card" href="https://gamma.app" target="_blank" style="--card-accent: #8b5cf6">
+                    <span class="card-badge badge-recommend">推荐</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15);">✨</div>
+                        <div class="card-info">
+                            <div class="card-name">Gamma</div>
+                            <div class="card-url">gamma.app</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI驱动的演示文稿制作工具，自动生成精美的文档和PPT</div>
+                    <div class="card-tags"><span class="card-tag">PPT</span><span class="card-tag">文档</span><span class="card-tag">AI</span></div>
+                </a>
+
+                <a class="site-card" href="https://metaso.cn" target="_blank" style="--card-accent: #3b82f6">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🔍</div>
+                        <div class="card-info">
+                            <div class="card-name">秘塔AI搜索</div>
+                            <div class="card-url">metaso.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI驱动的搜索引擎，直接给出整理好的答案，无广告干扰</div>
+                    <div class="card-tags"><span class="card-tag">AI搜索</span><span class="card-tag">无广告</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.xmind.ai" target="_blank" style="--card-accent: #ef4444">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(239,68,68,0.15);">🧠</div>
+                        <div class="card-info">
+                            <div class="card-name">XMind AI</div>
+                            <div class="card-url">xmind.ai</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI增强的思维导图工具，自动生成和扩展思维导图</div>
+                    <div class="card-tags"><span class="card-tag">思维导图</span><span class="card-tag">AI</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.feishu.cn" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🪶</div>
+                        <div class="card-info">
+                            <div class="card-name">飞书智能伙伴</div>
+                            <div class="card-url">feishu.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">飞书集成的AI功能，支持AI会议纪要、文档摘要、智能创作等</div>
+                    <div class="card-tags"><span class="card-tag">办公</span><span class="card-tag">协作</span><span class="card-tag">AI</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.dingtalk.com" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">💬</div>
+                        <div class="card-info">
+                            <div class="card-name">钉钉AI助理</div>
+                            <div class="card-url">dingtalk.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">钉钉集成通义千问AI能力，支持AI总结、创作、翻译等办公功能</div>
+                    <div class="card-tags"><span class="card-tag">钉钉</span><span class="card-tag">通义</span><span class="card-tag">办公</span></div>
+                </a>
+
+                <a class="site-card" href="https://copilot.microsoft.com" target="_blank" style="--card-accent: #6366f1">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">🪟</div>
+                        <div class="card-info">
+                            <div class="card-name">Microsoft Copilot</div>
+                            <div class="card-url">copilot.microsoft.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">微软AI助手，集成到Office全家桶，提升Word、Excel、PPT效率</div>
+                    <div class="card-tags"><span class="card-tag">微软</span><span class="card-tag">Office</span><span class="card-tag">AI</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.wps.cn" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">📝</div>
+                        <div class="card-info">
+                            <div class="card-name">WPS AI</div>
+                            <div class="card-url">wps.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">金山WPS集成AI能力，支持AI写作、阅读、数据分析等办公场景</div>
+                    <div class="card-tags"><span class="card-tag">WPS</span><span class="card-tag">办公</span><span class="card-tag">AI写作</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== AI音乐 ========== -->
+        <section class="category-section fade-in" id="music">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(14,165,233,0.15);">🎵</div>
+                <h2 class="section-title">AI音乐 / 音频</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://suno.com" target="_blank" style="--card-accent: #ec4899">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(236,72,153,0.15);">🎵</div>
+                        <div class="card-info">
+                            <div class="card-name">Suno AI</div>
+                            <div class="card-url">suno.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI音乐生成工具，输入文字描述即可生成带有人声的完整歌曲</div>
+                    <div class="card-tags"><span class="card-tag">音乐生成</span><span class="card-tag">人声</span><span class="card-tag">歌曲</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.udio.com" target="_blank" style="--card-accent: #8b5cf6">
+                    <span class="card-badge badge-new">✨ 新上</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15);">🎶</div>
+                        <div class="card-info">
+                            <div class="card-name">Udio</div>
+                            <div class="card-url">udio.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI音乐创作平台，生成音乐质量高，支持多种音乐风格</div>
+                    <div class="card-tags"><span class="card-tag">音乐</span><span class="card-tag">创作</span><span class="card-tag">AI</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.mureka.ai" target="_blank" style="--card-accent: #f59e0b">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(245,158,11,0.15);">🎼</div>
+                        <div class="card-info">
+                            <div class="card-name">Mureka AI</div>
+                            <div class="card-url">mureka.ai</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">国产AI音乐创作工具，一键生成歌词和旋律，支持中文歌曲</div>
+                    <div class="card-tags"><span class="card-tag">国产</span><span class="card-tag">中文</span><span class="card-tag">歌曲</span></div>
+                </a>
+
+                <a class="site-card" href="https://podcast.adobe.com" target="_blank" style="--card-accent: #3b82f6">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🎧</div>
+                        <div class="card-info">
+                            <div class="card-name">Adobe Podcast</div>
+                            <div class="card-url">podcast.adobe.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">Adobe推出的AI音频增强工具，一键提升音频质量，去除噪音</div>
+                    <div class="card-tags"><span class="card-tag">降噪</span><span class="card-tag">音频增强</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.aiva.ai" target="_blank" style="--card-accent: #6366f1">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">🎹</div>
+                        <div class="card-info">
+                            <div class="card-name">AIVA</div>
+                            <div class="card-url">aiva.ai</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI作曲助手，可生成电影配乐、游戏音乐、广告背景音乐等</div>
+                    <div class="card-tags"><span class="card-tag">作曲</span><span class="card-tag">配乐</span><span class="card-tag">背景音乐</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== 知识学习 ========== -->
+        <section class="category-section fade-in" id="knowledge">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(16,185,129,0.15);">📚</div>
+                <h2 class="section-title">知识学习 / 教育</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://www.zhihu.com" target="_blank" style="--card-accent: #0084ff">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(0,132,255,0.15);">💡</div>
+                        <div class="card-info">
+                            <div class="card-name">知乎</div>
+                            <div class="card-url">zhihu.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">中文互联网最大的问答社区，内置AI搜索和知识问答功能</div>
+                    <div class="card-tags"><span class="card-tag">问答</span><span class="card-tag">知识</span><span class="card-tag">社区</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.coursera.org" target="_blank" style="--card-accent: #0056d2">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(0,86,210,0.15);">🎓</div>
+                        <div class="card-info">
+                            <div class="card-name">Coursera</div>
+                            <div class="card-url">coursera.org</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">全球知名在线学习平台，提供顶尖大学和企业的课程资源</div>
+                    <div class="card-tags"><span class="card-tag">在线课程</span><span class="card-tag">大学</span><span class="card-tag">证书</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.icourse163.org" target="_blank" style="--card-accent: #10b981">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15);">📖</div>
+                        <div class="card-info">
+                            <div class="card-name">中国大学MOOC</div>
+                            <div class="card-url">icourse163.org</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">网易与教育部合作的在线教育平台，汇集国内顶尖高校课程</div>
+                    <div class="card-tags"><span class="card-tag">免费</span><span class="card-tag">高校</span><span class="card-tag">MOOC</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.xuetangx.com" target="_blank" style="--card-accent: #8b5cf6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15);">🏫</div>
+                        <div class="card-info">
+                            <div class="card-name">学堂在线</div>
+                            <div class="card-url">xuetangx.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">清华大学发起的在线教育平台，提供高质量的大学课程</div>
+                    <div class="card-tags"><span class="card-tag">清华</span><span class="card-tag">大学课程</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.bilibili.com" target="_blank" style="--card-accent: #00a1d6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(0,161,214,0.15);">📺</div>
+                        <div class="card-info">
+                            <div class="card-name">B站 (学习区)</div>
+                            <div class="card-url">bilibili.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">B站学习区拥有海量优质教程和知识分享视频，被称为"B站大学"</div>
+                    <div class="card-tags"><span class="card-tag">视频</span><span class="card-tag">教程</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://scholar.google.com" target="_blank" style="--card-accent: #4285f4">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(66,133,244,0.15);">🔬</div>
+                        <div class="card-info">
+                            <div class="card-name">Google Scholar</div>
+                            <div class="card-url">scholar.google.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">Google学术搜索，查找学术论文、专利、引用等学术资源</div>
+                    <div class="card-tags"><span class="card-tag">学术</span><span class="card-tag">论文</span><span class="card-tag">搜索</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== 历史文化 ========== -->
+        <section class="category-section fade-in" id="history">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(245,158,11,0.15);">🏛️</div>
+                <h2 class="section-title">历史文化 / 百科</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://www.dpm.org.cn" target="_blank" style="--card-accent: #ef4444">
+                    <span class="card-badge badge-recommend">推荐</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(239,68,68,0.15);">🏯</div>
+                        <div class="card-info">
+                            <div class="card-name">故宫博物院</div>
+                            <div class="card-url">dpm.org.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">故宫博物院官网，提供数字文物、虚拟展览、历史文化等资源</div>
+                    <div class="card-tags"><span class="card-tag">故宫</span><span class="card-tag">文物</span><span class="card-tag">展览</span></div>
+                </a>
+
+                <a class="site-card" href="https://zh.wikipedia.org" target="_blank" style="--card-accent: #000">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(255,255,255,0.1);">📖</div>
+                        <div class="card-info">
+                            <div class="card-name">维基百科</div>
+                            <div class="card-url">zh.wikipedia.org</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">全球最大的多语言百科全书，涵盖历史、科学、文化等各个领域</div>
+                    <div class="card-tags"><span class="card-tag">百科</span><span class="card-tag">历史</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.chnmuseum.cn" target="_blank" style="--card-accent: #ef4444">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(239,68,68,0.15);">🏛️</div>
+                        <div class="card-info">
+                            <div class="card-name">中国国家博物馆</div>
+                            <div class="card-url">chnmuseum.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">中国国家博物馆官网，在线浏览珍贵文物和历史展览</div>
+                    <div class="card-tags"><span class="card-tag">博物馆</span><span class="card-tag">文物</span><span class="card-tag">历史</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.shidianguji.com" target="_blank" style="--card-accent: #f59e0b">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(245,158,11,0.15);">📜</div>
+                        <div class="card-info">
+                            <div class="card-name">识典古籍</div>
+                            <div class="card-url">shidianguji.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">北大与字节合作的古籍数字化平台，AI识别古籍，免费在线阅读</div>
+                    <div class="card-tags"><span class="card-tag">古籍</span><span class="card-tag">免费</span><span class="card-tag">AI识别</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.guoxuedashi.net" target="_blank" style="--card-accent: #8b5cf6">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15);">📚</div>
+                        <div class="card-info">
+                            <div class="card-name">国学大师</div>
+                            <div class="card-url">guoxuedashi.net</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">集合字典、词典、古籍、诗词、国学经典的综合学习网站</div>
+                    <div class="card-tags"><span class="card-tag">国学</span><span class="card-tag">古籍</span><span class="card-tag">诗词</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.allhistory.com" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">🌍</div>
+                        <div class="card-info">
+                            <div class="card-name">全历史</div>
+                            <div class="card-url">allhistory.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">以AI为驱动的历史知识图谱，通过时间线、关系图谱呈现历史</div>
+                    <div class="card-tags"><span class="card-tag">历史</span><span class="card-tag">时间线</span><span class="card-tag">知识图谱</span></div>
+                </a>
+
+                <a class="site-card" href="https://so.gushiwen.cn" target="_blank" style="--card-accent: #10b981">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15);">🌸</div>
+                        <div class="card-info">
+                            <div class="card-name">古诗文网</div>
+                            <div class="card-url">gushiwen.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">收录古诗文、名言名句、文言文翻译等，学习古典文学好去处</div>
+                    <div class="card-tags"><span class="card-tag">古诗</span><span class="card-tag">文言文</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.nlc.cn" target="_blank" style="--card-accent: #ef4444">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(239,68,68,0.15);">🏛️</div>
+                        <div class="card-info">
+                            <div class="card-name">中国国家图书馆</div>
+                            <div class="card-url">nlc.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">国家图书馆数字资源，提供古籍、论文、图书等在线阅读</div>
+                    <div class="card-tags"><span class="card-tag">图书馆</span><span class="card-tag">数字资源</span><span class="card-tag">古籍</span></div>
+                </a>
+
+                <a class="site-card" href="https://baike.baidu.com" target="_blank" style="--card-accent: #3b82f6">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(59,130,246,0.15);">📝</div>
+                        <div class="card-info">
+                            <div class="card-name">百度百科</div>
+                            <div class="card-url">baike.baidu.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">中文最大的百科全书，涵盖各领域知识，历史词条丰富</div>
+                    <div class="card-tags"><span class="card-tag">百科</span><span class="card-tag">知识</span><span class="card-tag">免费</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== 开发工具 ========== -->
+        <section class="category-section fade-in" id="dev">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(99,102,241,0.15);">🔧</div>
+                <h2 class="section-title">开发者工具 / 平台</h2>
+                <span class="section-count" data-count></span>
+            </div>
+            <div class="cards-grid">
+                <a class="site-card" href="https://github.com" target="_blank" style="--card-accent: #000">
+                    <span class="card-badge badge-hot">🔥 热门</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(255,255,255,0.1);">🐙</div>
+                        <div class="card-info">
+                            <div class="card-name">GitHub</div>
+                            <div class="card-url">github.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">全球最大的代码托管和开源社区，开发者必备平台</div>
+                    <div class="card-tags"><span class="card-tag">代码</span><span class="card-tag">开源</span><span class="card-tag">社区</span></div>
+                </a>
+
+                <a class="site-card" href="https://huggingface.co" target="_blank" style="--card-accent: #ffd21e">
+                    <span class="card-badge badge-recommend">推荐</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(255,210,30,0.15);">🤗</div>
+                        <div class="card-info">
+                            <div class="card-name">Hugging Face</div>
+                            <div class="card-url">huggingface.co</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">AI模型社区和托管平台，分享和使用最新的开源AI模型</div>
+                    <div class="card-tags"><span class="card-tag">AI模型</span><span class="card-tag">开源</span><span class="card-tag">社区</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.modelscope.cn" target="_blank" style="--card-accent: #6366f1">
+                    <span class="card-badge badge-free">免费</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15);">🔭</div>
+                        <div class="card-info">
+                            <div class="card-name">魔搭社区 (ModelScope)</div>
+                            <div class="card-url">modelscope.cn</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">阿里达摩院推出的AI模型社区，国内版HuggingFace，模型丰富</div>
+                    <div class="card-tags"><span class="card-tag">阿里</span><span class="card-tag">模型</span><span class="card-tag">免费</span></div>
+                </a>
+
+                <a class="site-card" href="https://vercel.com" target="_blank" style="--card-accent: #000">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(255,255,255,0.1);">▲</div>
+                        <div class="card-info">
+                            <div class="card-name">Vercel</div>
+                            <div class="card-url">vercel.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">前端部署平台，支持AI应用部署，集成v0等AI开发工具</div>
+                    <div class="card-tags"><span class="card-tag">部署</span><span class="card-tag">前端</span><span class="card-tag">AI</span></div>
+                </a>
+
+                <a class="site-card" href="https://v0.dev" target="_blank" style="--card-accent: #000">
+                    <span class="card-badge badge-new">✨ 新上</span>
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(255,255,255,0.1);">⚡</div>
+                        <div class="card-info">
+                            <div class="card-name">v0.dev</div>
+                            <div class="card-url">v0.dev</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">Vercel推出的AI UI生成工具，用自然语言描述即可生成React组件</div>
+                    <div class="card-tags"><span class="card-tag">UI生成</span><span class="card-tag">React</span><span class="card-tag">AI</span></div>
+                </a>
+
+                <a class="site-card" href="https://www.kaggle.com" target="_blank" style="--card-accent: #20beff">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(32,190,255,0.15);">📊</div>
+                        <div class="card-info">
+                            <div class="card-name">Kaggle</div>
+                            <div class="card-url">kaggle.com</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">全球最大的数据科学和机器学习社区，提供数据集和竞赛平台</div>
+                    <div class="card-tags"><span class="card-tag">数据科学</span><span class="card-tag">竞赛</span><span class="card-tag">数据集</span></div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+    </div>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>🚀 AI导航</h3>
+                    <p>致力于收录和推荐全网最优质的AI工具、创作平台和学习资源。我们每日更新，帮助用户快速找到所需的AI工具，提升工作效率和创作能力。如有好的工具推荐或建议，欢迎联系我们。</p>
+                </div>
+                <div class="footer-col">
+                    <h4>热门分类</h4>
+                    <a href="#ai-chat">AI对话助手</a>
+                    <a href="#ai-draw">AI绘画工具</a>
+                    <a href="#video">视频剪辑</a>
+                    <a href="#voice">配音工具</a>
+                    <a href="#image">图片素材</a>
+                </div>
+                <div class="footer-col">
+                    <h4>更多分类</h4>
+                    <a href="#ai-write">AI写作</a>
+                    <a href="#ai-code">AI编程</a>
+                    <a href="#design">设计工具</a>
+                    <a href="#music">AI音乐</a>
+                    <a href="#history">历史文化</a>
+                </div>
+                <div class="footer-col">
+                    <h4>关于我们</h4>
+                    <a href="#">关于本站</a>
+                    <a href="#">免责声明</a>
+                    <a href="#">隐私政策</a>
+                    <a href="#">广告合作</a>
+                    <a href="mailto:contact@ainav.com">联系我们</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <div>© 2024 AI导航 AiNav.com 版权所有</div>
+                    <div>
+                        <a href="#">ICP备案号：京ICP备2024XXXXXX号-1</a> &nbsp;|&nbsp;
+                        <a href="#">京公网安备 11010XXXXXXXXXX号</a>
+                    </div>
+                    <div>
+                        <a href="#">增值电信业务经营许可证：京B2-2024XXXX</a> &nbsp;|&nbsp;
+                        <a href="#">网络文化经营许可证：京网文[2024]XXXX-XXX号</a>
+                    </div>
+                    <div style="margin-top:4px; color: #64748b;">
+                        本站仅提供工具导航服务，所有工具的版权归其原作者或公司所有。
+                    </div>
+                </div>
+                <div class="footer-social">
+                    <a href="#" title="微信">💬</a>
+                    <a href="#" title="微博">📢</a>
+                    <a href="#" title="GitHub">🐙</a>
+                    <a href="#" title="邮件">📧</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== 数据和搜索 ====================
+
+        // 获取所有站点卡片数据用于搜索
+        function getAllCards() {
+            const cards = document.querySelectorAll('.site-card');
+            return Array.from(cards).map(card => {
+                const section = card.closest('.category-section');
+                return {
+                    element: card,
+                    section: section,
+                    name: card.querySelector('.card-name')?.textContent || '',
+                    desc: card.querySelector('.card-desc')?.textContent || '',
+                    url: card.querySelector('.card-url')?.textContent || '',
+                    tags: Array.from(card.querySelectorAll('.card-tag')).map(t => t.textContent).join(' '),
+                    sectionTitle: section?.querySelector('.section-title')?.textContent || ''
+                };
+            });
+        }
+
+        // 搜索功能
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const allCards = getAllCards();
+            const sections = document.querySelectorAll('.category-section');
+            const searchResultInfo = document.getElementById('searchResultInfo');
+            const noResults = document.getElementById('noResults');
+
+            if (!query) {
+                resetSearch();
+                return;
+            }
+
+            let matchCount = 0;
+
+            sections.forEach(section => {
+                const cards = section.querySelectorAll('.site-card');
+                let sectionHasMatch = false;
+
+                cards.forEach(card => {
+                    const cardData = {
+                        name: card.querySelector('.card-name')?.textContent?.toLowerCase() || '',
+                        desc: card.querySelector('.card-desc')?.textContent?.toLowerCase() || '',
+                        url: card.querySelector('.card-url')?.textContent?.toLowerCase() || '',
+                        tags: Array.from(card.querySelectorAll('.card-tag')).map(t => t.textContent.toLowerCase()).join(' ')
+                    };
+
+                    const isMatch = cardData.name.includes(query) ||
+                                   cardData.desc.includes(query) ||
+                                   cardData.url.includes(query) ||
+                                   cardData.tags.includes(query);
+
+                    if (isMatch) {
+                        card.style.display = '';
+                        sectionHasMatch = true;
+                        matchCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                section.style.display = sectionHasMatch ? '' : 'none';
+            });
+
+            if (matchCount > 0) {
+                searchResultInfo.style.display = 'block';
+                const foundText = isChinese ? '找到' : 'Found';
+                const relatedText = isChinese ? '个与' : 'tools related to';
+                const clearText = isChinese ? '清除搜索' : 'Clear Search';
+                searchResultInfo.innerHTML = `🔍 ${foundText} <strong style="color: var(--primary-light)">${matchCount}</strong> ${relatedText} "<strong style="color: var(--primary-light)">${document.getElementById('searchInput').value.trim()}</strong>" &nbsp;
+                    <a href="javascript:void(0)" onclick="resetSearch()" style="color: var(--primary-light); text-decoration: underline;">${clearText}</a>`;
+                noResults.style.display = 'none';
+            } else {
+                searchResultInfo.style.display = 'none';
+                noResults.style.display = 'block';
+            }
+
+            // 更新分类标签状态
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+        }
+
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+            // 实时搜索（输入时延迟搜索）
+            clearTimeout(window.searchTimeout);
+            window.searchTimeout = setTimeout(() => {
+                if (document.getElementById('searchInput').value.trim()) {
+                    performSearch();
+                } else {
+                    resetSearch();
+                }
+            }, 300);
+        }
+
+        function quickSearch(keyword) {
+            document.getElementById('searchInput').value = keyword;
+            performSearch();
+            document.getElementById('searchInput').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetSearch(keepActive = false) {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResultInfo').style.display = 'none';
+            document.getElementById('noResults').style.display = 'none';
+
+            document.querySelectorAll('.category-section').forEach(section => {
+                section.style.display = '';
+            });
+
+            document.querySelectorAll('.site-card').forEach(card => {
+                card.style.display = '';
+            });
+
+            // 只有在需要的时候才重置分类标签
+            if (!keepActive) {
+                document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+                document.querySelector('.category-tab[data-category="all"]').classList.add('active');
+            }
+        }
+
+        let isUserClicking = false;
+
+        // ==================== 分类导航 ====================
+
+        function scrollToCategory(categoryId) {
+            const targetTab = document.querySelector(`.category-tab[data-category="${categoryId}"]`);
+            if (!targetTab) return;
+
+            isUserClicking = true;
+
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+            targetTab.classList.add('active');
+
+            if (categoryId === 'all') {
+                resetSearch();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                closeMobileSidebar();
+            } else {
+                resetSearch(true);
+                const target = document.getElementById(categoryId);
+                if (target) {
+                    setTimeout(() => {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+                closeMobileSidebar();
+            }
+
+            setTimeout(() => {
+                isUserClicking = false;
+            }, 1500);
+        }
+
+        // ==================== 回到顶部 ====================
+
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('backToTop');
+            if (window.scrollY > 500) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+            updateActiveCategory();
+        });
+
+        function updateActiveCategory() {
+            if (isUserClicking) return;
+
+            const sections = document.querySelectorAll('.category-section');
+            let currentSection = 'all';
+
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 200) {
+                    currentSection = section.id;
+                }
+            });
+
+            if (window.scrollY < 200) {
+                currentSection = 'all';
+            }
+
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.category === currentSection) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        // ==================== 主题切换 ====================
+
+        let isDark = true;
+
+        function toggleTheme() {
+            isDark = !isDark;
+            const btn = document.querySelector('.theme-toggle');
+
+            if (isDark) {
+                document.documentElement.style.setProperty('--bg', '#0f172a');
+                document.documentElement.style.setProperty('--bg-card', '#1e293b');
+                document.documentElement.style.setProperty('--bg-card-hover', '#334155');
+                document.documentElement.style.setProperty('--text', '#f1f5f9');
+                document.documentElement.style.setProperty('--text-secondary', '#94a3b8');
+                document.documentElement.style.setProperty('--border', '#334155');
+                document.documentElement.style.setProperty('--sidebar-bg', 'rgba(30, 41, 59, 0.95)');
+                btn.textContent = '🌙';
+            } else {
+                document.documentElement.style.setProperty('--bg', '#f8fafc');
+                document.documentElement.style.setProperty('--bg-card', '#ffffff');
+                document.documentElement.style.setProperty('--bg-card-hover', '#f1f5f9');
+                document.documentElement.style.setProperty('--text', '#0f172a');
+                document.documentElement.style.setProperty('--text-secondary', '#64748b');
+                document.documentElement.style.setProperty('--border', '#e2e8f0');
+                document.documentElement.style.setProperty('--sidebar-bg', 'rgba(255, 255, 255, 0.95)');
+                btn.textContent = '☀️';
+            }
+        }
+
+        // ==================== 语言切换 ====================
+
+        let isChinese = true;
+
+        function toggleLanguage() {
+            isChinese = !isChinese;
+            const btn = document.querySelector('.lang-toggle');
+            btn.textContent = isChinese ? '中' : 'EN';
+
+            document.querySelectorAll('[data-zh]').forEach(el => {
+                el.textContent = isChinese ? el.dataset.zh : el.dataset.en;
+            });
+
+            document.querySelectorAll('[data-zh-placeholder]').forEach(el => {
+                el.placeholder = isChinese ? el.dataset.zhPlaceholder : el.dataset.enPlaceholder;
+            });
+        }
+
+        // ==================== 计数 ====================
+
+        function updateCounts() {
+            document.querySelectorAll('.section-count').forEach(countEl => {
+                const section = countEl.closest('.category-section');
+                if (section) {
+                    const cardCount = section.querySelectorAll('.site-card').length;
+                    countEl.textContent = `${cardCount} 个工具`;
+                }
+            });
+
+            // 更新总数
+            const totalCards = document.querySelectorAll('.site-card').length;
+            document.getElementById('totalSites').textContent = totalCards + '+';
+        }
+
+        // ==================== 初始化 ====================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCounts();
+        });
+
+        // ==================== 移动端侧边栏 ====================
+
+        function toggleMobileSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuToggle = document.querySelector('.menu-toggle');
+
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+            menuToggle.classList.toggle('active');
+        }
+
+        function closeMobileSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuToggle = document.querySelector('.menu-toggle');
+
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            menuToggle.classList.remove('active');
+        }
+    </script>
+
+</body>
+</html>
